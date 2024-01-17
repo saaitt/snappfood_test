@@ -1,0 +1,27 @@
+package domain
+
+import "time"
+
+type Order struct {
+	ID           uint64    `json:"id"`
+	DeliveryTime uint64    `json:"delivery_time"`
+	CreatedAt    time.Time `json:"created_at"`
+	AgentID      uint64    `json:"agent_id"`
+	VendorID     uint64    `json:"vendor_id"`
+}
+
+type OrderRequest struct {
+	DeliveryTime uint64 `json:"delivery_time"`
+	VendorID     uint64 `json:"vendor_id"`
+}
+
+type OrderDelayReport struct {
+	ID        uint64    `json:"id"`
+	OrderID   uint64    `json:"order_id"`
+	Processed bool      `json:"processed"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type OrderDelayReportRequest struct {
+	OrderID uint64 `json:"order_id"`
+}

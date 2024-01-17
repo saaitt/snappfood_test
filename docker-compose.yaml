@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:13
+    container_name: order_db
+    volumes:
+      - /home/saaitt/postgresql:/var/lib/postgresql:Z
+    environment:
+      - POSTGRES_DB=order_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123123
+      - POSTGRES_HOST=0.0.0.0
+      - POSTGRES_PORT=5432
+    ports:
+      - "5432:5432"
