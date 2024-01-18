@@ -1,10 +1,16 @@
 package app
 
 import (
-	o "github.com/saaitt/snappfood_test/orders"
+	orders "github.com/saaitt/snappfood_test/orders"
+	trips "github.com/saaitt/snappfood_test/trips"
 )
 
 func (a *App) InitOrders() {
-	a.orderUc = o.InitUC(o.InitRepository(a.db))
-	a.orderHr = o.InitHandler(a.orderUc)
+	a.orderUc = orders.InitUC(orders.InitRepository(a.db))
+	a.orderHr = orders.InitHandler(a.orderUc)
+}
+
+func (a *App) InitTrips() {
+	uc := trips.InitUC(trips.InitRepository(a.db))
+	a.tripHr = trips.InitHandler(uc)
 }

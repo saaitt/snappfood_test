@@ -22,8 +22,8 @@ CREATE TABLE trips
     id         SERIAL      not null,
     created_at timestamptz not null,
     order_id   bigint      not null,
-    processed  bool        not null default false,
+    status     varchar(16) not NULL,
     PRIMARY KEY (id)
-)
+);
 
 

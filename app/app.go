@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/saaitt/snappfood_test/db"
 	od "github.com/saaitt/snappfood_test/orders/domain"
+	td "github.com/saaitt/snappfood_test/trips/domain"
 	"gorm.io/gorm"
 )
 
@@ -13,6 +14,9 @@ type App struct {
 
 	orderUc od.UseCase
 	orderHr od.Handler
+
+	tripUc td.UseCase
+	tripHr td.Handler
 }
 
 func New() *App {
@@ -35,6 +39,7 @@ func (a *App) InitDB() {
 
 func (a *App) InitModules() {
 	a.InitOrders()
+	a.InitTrips()
 }
 
 func (a *App) InitCore() {
