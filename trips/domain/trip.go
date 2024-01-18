@@ -28,3 +28,9 @@ type TripUpdateRequest struct {
 func (m *Trip) Empty() bool {
 	return m.ID < 1
 }
+
+func (m *Trip) Ongoing() bool {
+	return m.Status == StatusPicked ||
+		m.Status == StatusAssigned ||
+		m.Status == StatusAtVendor
+}

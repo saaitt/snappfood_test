@@ -38,8 +38,8 @@ func (a *App) InitDB() {
 }
 
 func (a *App) InitModules() {
-	a.InitOrders()
 	a.InitTrips()
+	a.InitOrders()
 }
 
 func (a *App) InitCore() {

@@ -8,14 +8,14 @@ func (r *repository) Create(item any) (any, error) {
 	return item, nil
 }
 
-func (r *repository) FindByID(item any, id uint64) (any, error) {
+func (r *repository) FindByID(item any, id uint64) error {
 	result := r.db.
 		Where("id = ?", id).
 		First(&item)
 	if result.Error != nil {
-		return nil, result.Error
+		return result.Error
 	}
-	return result, nil
+	return nil
 }
 
 func (r *repository) Update(item any) error {

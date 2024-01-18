@@ -10,7 +10,7 @@ func (uc *useCase) UpdateTrip(req *domain.TripUpdateRequest) (*domain.Trip, erro
 	_, err := uc.repo.FindByFilter(&t, "id", req.ID)
 	if err != nil {
 		if err == repository.ErrItemNotFound {
-			return nil, domain.ErrorWrongTripID
+			return nil, domain.TripNotFound
 		}
 		return nil, err
 	}

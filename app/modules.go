@@ -6,11 +6,14 @@ import (
 )
 
 func (a *App) InitOrders() {
-	a.orderUc = orders.InitUC(orders.InitRepository(a.db))
+	a.orderUc = orders.InitUC(
+		orders.InitRepository(a.db),
+		a.tripUc,
+	)
 	a.orderHr = orders.InitHandler(a.orderUc)
 }
 
 func (a *App) InitTrips() {
-	uc := trips.InitUC(trips.InitRepository(a.db))
-	a.tripHr = trips.InitHandler(uc)
+	a.tripUc = trips.InitUC(trips.InitRepository(a.db))
+	a.tripHr = trips.InitHandler(a.tripUc)
 }
