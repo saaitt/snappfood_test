@@ -3,7 +3,7 @@ CREATE TABLE orders
     id            SERIAL      not null,
     delivery_time bigint      not null,
     created_at    timestamptz not null,
-    agent_id      bigint      NULL,
+    start_at      timestamptz not null,
     vendor_id     bigint      not null,
     PRIMARY KEY (id)
 );

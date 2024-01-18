@@ -6,7 +6,7 @@ type Order struct {
 	ID           uint64    `json:"id"`
 	DeliveryTime uint64    `json:"delivery_time"`
 	CreatedAt    time.Time `json:"created_at"`
-	AgentID      uint64    `json:"agent_id"`
+	StartAt      time.Time `json:"start_at"`
 	VendorID     uint64    `json:"vendor_id"`
 }
 

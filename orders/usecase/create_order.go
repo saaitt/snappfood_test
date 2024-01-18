@@ -9,6 +9,7 @@ func (uc *useCase) CreateOrder(orderReq *domain.OrderRequest) (*domain.Order, er
 	res, err := uc.repo.Create(&domain.Order{
 		DeliveryTime: orderReq.DeliveryTime,
 		CreatedAt:    time.Now().UTC(),
+		StartAt:      time.Now().UTC(),
 		VendorID:     orderReq.VendorID,
 	})
 	if err != nil {

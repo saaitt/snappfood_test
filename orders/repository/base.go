@@ -17,3 +17,7 @@ func (r *repository) FindByID(item any, id uint64) (any, error) {
 	}
 	return result, nil
 }
+
+func (r *repository) Update(item any) error {
+	return r.db.Save(item).Error
+}
