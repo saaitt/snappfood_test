@@ -16,7 +16,6 @@ func Consumer(server, groupId, offsetReset string, topics []string) *MessageCons
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(topics)
 	if err := c.SubscribeTopics(topics, nil); err != nil {
 		fmt.Println(err)
 		return nil

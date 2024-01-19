@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	fmt.Println(ReadConfig())
 	orderManager := app.New(ReadConfig())
 	orderManager.Initialize()
 	orderManager.Start()
