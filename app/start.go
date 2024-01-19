@@ -13,7 +13,7 @@ import (
 
 func (a *App) Start() {
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    a.config.Http.Address,
 		Handler: a.engine.Handler(),
 	}
 	go func() {
@@ -25,7 +25,8 @@ func (a *App) Start() {
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGKILL, syscall.SIGINT)
 	<-c
 	fmt.Println("shutting down...")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(),
+		a.config.Http.GracefulShutdownTimeout*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)

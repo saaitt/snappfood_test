@@ -52,7 +52,12 @@ func (a *App) InitEngine() {
 }
 
 func (a *App) InitDB() {
-	a.db = db.New()
+	a.db = db.New(a.config.DB.Host,
+		a.config.DB.User,
+		a.config.DB.Password,
+		a.config.DB.DbName,
+		a.config.DB.Port,
+	)
 }
 
 func (a *App) InitBroker() {

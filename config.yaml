@@ -2,6 +2,13 @@ http:
   address: "0.0.0.0:8080"
   gracfulShutdownTimeout: 15
 
+db:
+  host: "localhost"
+  port: 5432
+  user: "postgres"
+  password: "123123"
+  dbname: "order_db"
+
 broker:
   server: "localhost"
   groupId: "myGroup"

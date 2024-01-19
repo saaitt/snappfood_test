@@ -11,14 +11,7 @@ import (
 	"time"
 )
 
-func New() *gorm.DB {
-	const (
-		host     = "localhost"
-		port     = 5432
-		user     = "postgres"
-		password = "123123"
-		dbname   = "order_db"
-	)
+func New(host, user, password, dbname string, port int) *gorm.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)

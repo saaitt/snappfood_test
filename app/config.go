@@ -7,14 +7,16 @@ type ServiceConfig struct {
 		Address                 string
 		GracefulShutdownTimeout time.Duration
 	}
-	DB struct {
-		Host     string
-		Port     int
-		User     string
-		Password string
-		DbName   string
-	}
+	DB     PostgresDB  `mapstructure:"db"`
 	Broker KafkaBroker `mapstructure:"broker"`
+}
+
+type PostgresDB struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	DbName   string
 }
 
 type KafkaBroker struct {
