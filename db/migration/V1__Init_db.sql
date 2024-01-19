@@ -26,4 +26,14 @@ CREATE TABLE trips
     PRIMARY KEY (id)
 );
 
+CREATE TABLE agent_tasks
+(
+    id         SERIAL      not null,
+    created_at timestamptz not null,
+    order_id   bigint      not null,
+    delay_report_id   bigint      not null,
+    processed  bool        not NULL,
+    PRIMARY KEY (id)
+);
+
 
