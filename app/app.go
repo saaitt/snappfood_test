@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/gin-gonic/gin"
+	ad "github.com/saaitt/snappfood_test/agents/domain"
 	"github.com/saaitt/snappfood_test/db"
 	od "github.com/saaitt/snappfood_test/orders/domain"
 	"github.com/saaitt/snappfood_test/services/kafka_broker"
@@ -13,7 +14,7 @@ import (
 type App struct {
 	engine   *gin.Engine
 	db       *gorm.DB
-	consumer *kafka.Consumer
+	consumer *kafka_broker.MessageConsumer
 	producer *kafka.Producer
 	config   ServiceConfig
 
@@ -22,6 +23,9 @@ type App struct {
 
 	tripUc td.UseCase
 	tripHr td.Handler
+
+	agentUc ad.UseCase
+	agentHr ad.Handler
 }
 
 func New(cfg ServiceConfig) *App {
@@ -39,6 +43,7 @@ func (a *App) Initialize() {
 func (a *App) InitModules() {
 	a.InitTrips()
 	a.InitOrders()
+	a.InitAgents()
 }
 
 func (a *App) InitCore() {
@@ -58,13 +63,4 @@ func (a *App) InitDB() {
 		a.config.DB.DbName,
 		a.config.DB.Port,
 	)
-}
-
-func (a *App) InitBroker() {
-	a.consumer = kafka_broker.Consumer(
-		a.config.Broker.Server,
-		a.config.Broker.GroupId,
-		a.config.Broker.OffsetReset,
-		a.config.Broker.Topics)
-	a.producer = kafka_broker.Producer(a.config.Broker.Server)
 }

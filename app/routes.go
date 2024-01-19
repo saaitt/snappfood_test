@@ -19,4 +19,6 @@ func (a *App) RegisterRoutes() {
 	tripRg.POST("/", a.tripHr.AssignTrip)
 	tripRg.PUT("/", a.tripHr.UpdateTrip)
 
+	agentRg := a.engine.RouterGroup.Group("agent")
+	agentRg.GET("/task", a.agentHr.GetAssigned)
 }

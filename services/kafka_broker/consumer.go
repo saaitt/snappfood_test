@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func Consumer(server, groupId, offsetReset string, topics []string) *kafka.Consumer {
+func Consumer(server, groupId, offsetReset string, topics []string) *MessageConsumer {
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": server,
 		"group.id":          groupId,
@@ -21,22 +21,29 @@ func Consumer(server, groupId, offsetReset string, topics []string) *kafka.Consu
 		fmt.Println(err)
 		return nil
 	}
-	return c
+	msgCh := make(chan []byte)
+	return &MessageConsumer{
+		c:     c,
+		MsgCh: msgCh,
+	}
 }
 
-func Reader(c *kafka.Consumer, ch chan []byte) {
+func (b *MessageConsumer) Reader() {
 	fmt.Println("starting consumer...")
 	run := true
 	for run {
-		fmt.Println("consumer message loop ...")
-		msg, err := c.ReadMessage(time.Second)
+		msg, err := b.c.ReadMessage(time.Second)
 		if err == nil {
 			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
-			ch <- msg.Value
+			b.MsgCh <- msg.Value
 		} else if !err.(kafka.Error).IsTimeout() {
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
 		}
 	}
+	b.c.Close()
+}
 
-	c.Close()
+type MessageConsumer struct {
+	MsgCh chan []byte
+	c     *kafka.Consumer
 }
