@@ -1,6 +1,6 @@
 BINARY=infoApp
 SERVICE_NAME=order-service
-DOCKER_FILE_NAME=order-service.dockerfile
+DOCKER_FILE_NAME=Dockerfile
 VERSION=1.0
 
 build:
