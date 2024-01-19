@@ -13,6 +13,7 @@ func (a *App) RegisterRoutes() {
 	orderRg := a.engine.RouterGroup.Group("order")
 	orderRg.POST("/", a.orderHr.CreateOrderHr)
 	orderRg.POST("/delay", a.orderHr.CreateOrderDelayReportHr)
+	orderRg.GET("/vendor/delay", a.orderHr.GetVendorDelayReportHr)
 
 	tripRg := a.engine.RouterGroup.Group("trip")
 	tripRg.POST("/", a.tripHr.AssignTrip)

@@ -1,6 +1,9 @@
 package usecase
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/saaitt/snappfood_test/orders/domain"
 	"github.com/saaitt/snappfood_test/orders/repository"
 	td "github.com/saaitt/snappfood_test/trips/domain"
@@ -31,7 +34,7 @@ func (uc *useCase) CreateOrderDelayReport(req *domain.OrderDelayReportRequest) (
 		if err != nil && err != td.TripNotFound {
 			return nil, err
 		}
-		if !trip.Empty() {
+		if trip != nil && !trip.Empty() {
 			if trip.Ongoing() {
 				order.DeliveryTime = order.DeliveryTime + uc.getNewDeliveryTime()
 				order.StartAt = time.Now().UTC()
@@ -46,6 +49,20 @@ func (uc *useCase) CreateOrderDelayReport(req *domain.OrderDelayReportRequest) (
 		})
 		if err != nil {
 			return nil, err
+		}
+
+		orderStr, err := json.Marshal(order)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if err := uc.producer.Produce(&kafka.Message{
+			TopicPartition: kafka.TopicPartition{
+				Topic:     &uc.agentTopic,
+				Partition: kafka.PartitionAny,
+			},
+			Value: orderStr,
+		}, nil); err != nil {
+			fmt.Println(err)
 		}
 		odr := res.(*domain.OrderDelayReport)
 		return odr, nil

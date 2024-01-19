@@ -25,3 +25,8 @@ type OrderDelayReport struct {
 type OrderDelayReportRequest struct {
 	OrderID uint64 `json:"order_id"`
 }
+
+type VendorDelayReport struct {
+	VendorID    string `json:"vendor_id"`
+	DelayCounts uint64 `json:"delay_counts"`
+}

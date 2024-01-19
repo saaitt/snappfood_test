@@ -1,0 +1,11 @@
+http:
+  address: "0.0.0.0:8080"
+  gracfulShutdownTimeout: 15
+
+broker:
+  server: "localhost"
+  groupId: "myGroup"
+  offsetReset: "earliest"
+  topics:
+    - "agent"
+  agentTopic: "agent"

@@ -9,6 +9,8 @@ func (a *App) InitOrders() {
 	a.orderUc = orders.InitUC(
 		orders.InitRepository(a.db),
 		a.tripUc,
+		a.producer,
+		a.config.Broker.AgentTopic,
 	)
 	a.orderHr = orders.InitHandler(a.orderUc)
 }
