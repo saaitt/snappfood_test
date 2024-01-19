@@ -2,7 +2,7 @@
 ## Build
 ##
 
-FROM golang:1.19 AS build
+FROM golang:1.21.6 AS build
 
 WORKDIR /app
 

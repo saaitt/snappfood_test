@@ -21,4 +21,5 @@ func (a *App) RegisterRoutes() {
 
 	agentRg := a.engine.RouterGroup.Group("agent")
 	agentRg.GET("/task", a.agentHr.GetAssigned)
+	agentRg.PUT("/task", a.agentHr.UpdateTask)
 }

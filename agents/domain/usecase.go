@@ -1,5 +1,6 @@
 package domain
 
 type UseCase interface {
-	GetAssigned() (*AgentHistory, error)
+	GetAssigned(agentID uint64) (*AgentTaskResponse, error)
+	UpdateTask(req *TaskUpdateRequest) (*AgentTask, error)
 }

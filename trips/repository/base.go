@@ -24,7 +24,7 @@ func (r *repository) Update(item any) error {
 	return r.db.Save(item).Error
 }
 
-func (r *repository) FindByFilter(item any, key, value any) (any, error) {
+func (r *repository) FindAllByFilter(item any, key, value any) (any, error) {
 	result := r.db.
 		Where(fmt.Sprintf("%v = ?", key), value).
 		First(&item)

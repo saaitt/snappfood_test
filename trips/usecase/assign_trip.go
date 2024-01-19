@@ -8,7 +8,7 @@ import (
 
 func (uc *useCase) AssignTrip(req *domain.TripRequest) (*domain.Trip, error) {
 	var t domain.Trip
-	_, err := uc.repo.FindByFilter(&t, "order_id", req.OrderID)
+	_, err := uc.repo.FindAllByFilter(&t, "order_id", req.OrderID)
 	if err != nil && err != repository.ErrItemNotFound {
 		return nil, err
 	}

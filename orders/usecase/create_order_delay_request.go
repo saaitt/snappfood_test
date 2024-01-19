@@ -64,6 +64,7 @@ func (uc *useCase) CreateOrderDelayReport(req *domain.OrderDelayReportRequest) (
 		}, nil); err != nil {
 			fmt.Println(err)
 		}
+		uc.producer.Flush(15 * 1000)
 		odr := res.(*domain.OrderDelayReport)
 		return odr, nil
 	}

@@ -7,7 +7,7 @@ import (
 
 func (uc *useCase) UpdateTrip(req *domain.TripUpdateRequest) (*domain.Trip, error) {
 	var t domain.Trip
-	_, err := uc.repo.FindByFilter(&t, "id", req.ID)
+	_, err := uc.repo.FindAllByFilter(&t, "id", req.ID)
 	if err != nil {
 		if err == repository.ErrItemNotFound {
 			return nil, domain.TripNotFound

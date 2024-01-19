@@ -1,33 +1,39 @@
 package usecase
 
 import (
-	"fmt"
+	"encoding/json"
 	"github.com/saaitt/snappfood_test/agents/domain"
+	od "github.com/saaitt/snappfood_test/orders/domain"
 )
 
-func (uc *useCase) GetAssigned() (*domain.AgentHistory, error) {
+func (uc *useCase) GetAssigned(agentID uint64) (*domain.AgentTaskResponse, error) {
+	var task domain.AgentTask
+	if err := uc.repo.FindActiveTask(&task, agentID); err != nil {
+		return nil, err
+	}
+
 	var message []byte
-	fmt.Println("hi")
-	message = <-uc.consumer.MsgCh
-	fmt.Println(string(message))
-	//var t domain.Trip
-	//_, err := uc.repo.FindByFilter(&t, "order_id", req.OrderID)
-	//if err != nil && err != repository.ErrItemNotFound {
-	//	return nil, err
-	//}
-	//if !t.Empty() {
-	//	return nil, domain.ErrorOrderIsAlreadyAssigned
-	//}
-	//
-	//res, err := uc.repo.Create(&domain.Trip{
-	//	OrderID:   req.OrderID,
-	//	Status:    domain.StatusAssigned,
-	//	CreatedAt: time.Now().UTC(),
-	//})
-	//if err != nil {
-	//	return nil, err
-	//}
-	//trip := res.(*domain.Trip)
-	//return trip, nil
-	return nil, nil
+	select {
+	case message = <-uc.consumer.MsgCh:
+	default:
+		return nil, domain.ErrorNoDelayReportIsOnQueue
+	}
+	var order od.Order
+	if err := json.Unmarshal(message, &order); err != nil {
+		return nil, err
+	}
+	var resp domain.AgentTaskResponse
+	var delayReports []od.OrderDelayReport
+	if err := uc.repo.FindAllByFilter(delayReports, "order_id", order.ID); err != nil {
+		return nil, err
+	}
+	resp.Order = order
+	task.Processed = false
+	task.OrderID = order.ID
+	task.DelayReportID = delayReports[0].ID
+	if err := uc.repo.Create(&task); err != nil {
+		return nil, err
+	}
+	resp.Task = task
+	return &resp, nil
 }
