@@ -3,6 +3,8 @@
 Just run the docker-compose using the following command:
 ```
 docker-compose up -d
+go get 
+go run main.go
 ```
 
  ### Usage
