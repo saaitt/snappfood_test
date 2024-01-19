@@ -14,6 +14,13 @@ services:
       - POSTGRES_PORT=5432
     ports:
       - "5432:5432"
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://order_db/order_db -user=postgres -password=123123 -connectRetries=60 migrate
+    volumes:
+      - ./db/migration:/flyway/sql
+    depends_on:
+      - db
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
